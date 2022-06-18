@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.video.ennovelas" name="EnNovelas" version="1.0" provider-name="marcosspg">
+<addon id="plugin.video.ennovelas" name="EnNovelas" version="1.2" provider-name="marcosspg">
   <requires>
+    <import addon="script.module.requests"/>
     <import addon="script.module.beautifulsoup4" version="4.5.3"/>
-    <import addon="plugin.video.ennovelas.lib.requests"/>
-    <import addon="script.module.html5lib" version="0.999.0"/>
-    <import addon="plugin.video.ennovelas.lib.urllib3"/>
     <import addon="xbmc.python" version="3.0.0"/>
   </requires>
   <extension point="xbmc.python.pluginsource" library="main.py">
@@ -13,22 +11,16 @@
   <extension point="xbmc.addon.metadata">
     <summary lang="es_ES">Busca novelas en ennovelas.com</summary>
     <description lang="es_ES">Busca novelas en ennovelas.com y disfruta del entretenimiento de la página</description>
-    <disclaimer lang="es_ES"></disclaimer>
-    <language>es</language> <!-- the language of the videos or other content the plugin provides, may be omitted in case the addon does not provide any content -->
+    <language>es</language> 
     <platform>all</platform>
     <license>GPL-2.0-or-later</license>
-    <forum>x</forum> <!-- may be omitted  -->
-    <website></website> <!-- the url of the website that contains the videos (or the official website of your plugin). May be omitted.  -->
-    <email>you@youremail.com</email> <!-- may be omitted  -->
+    <forum>x</forum> 
+    <email>you@youremail.com</email> 
     <source>http://github.com/you/plugin.addon.id</source>
-    <news>
-    </news>
     <assets>
         <icon>resources/icon.png</icon>
         <fanart>resources/fanart.jpg</fanart>
-        <banner></banner> <!-- optional -->
-        <clearlogo>resources/clearlogo.png</clearlogo> <!-- optional  -->
-        <screenshot></screenshot> <!-- optional, max 10  -->
+        <clearlogo>resources/clearlogo.png</clearlogo> 
     </assets>
   </extension>
 </addon>

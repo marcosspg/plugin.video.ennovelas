@@ -1,13 +1,13 @@
-import xbmcgui
 import xbmcaddon
 import sys
 from urllib.parse import parse_qsl
 import xbmcgui
 import xbmcplugin
-from lib import requests
+import requests
 import tools
 import logger 
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, ResultSet
+
 
 __addon__ = xbmcaddon.Addon();
 __addonname__ = __addon__.getAddonInfo("name");
@@ -29,16 +29,14 @@ urlNovelasActuales = "https://www.ennovelas.com/novelas";
 
 
 
+
 def getNovelas():
     with requests.Session() as s:
         response = s.get(urlNovelasActuales);
-        logger.debug(response.text);
-        # root = html.fromstring(response.text);
-        # novelas = root.xpath('//div[@class="video-post clearfix"]');
-        # for novela in novelas:
-        #     titulo = novela.xpath('a/p/text()')[0];
-        #     url = novela.xpath('a/@href')[0];
-        #     portada = str(novela.xpath('a/div[@class="thumb"]/@style')[0]).replace(")", "").replace("background-image:url(","");
-        #     tools.addItemMenu(url, portada);
+        for novela in BeautifulSoup(response.content).find_all("div",attrs={"class":"video-post clearfix"}):
+            titulo = novela.find("a").find("p").text;
+            url = str(novela.find("a")["href"]);
+            portada = str(novela.find("a").find("div", attrs={"class":"thumb"})["style"]).replace(")", "").replace("background-image:url(","");
+            tools.addItemMenu(titulo, portada, url);
 getNovelas();
 xbmcplugin.endOfDirectory(__handle__)

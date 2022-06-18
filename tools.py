@@ -27,9 +27,9 @@ def findall(pattern, text, flags):
         return None;
 
 
-def addItemMenu(label, thumbnail, isPlayable = 'false', isFolder = False):
-    __handle__ = init(sys.argv[1])
-    li = xbmcgui.ListItem(label=label, thumbnailImage=thumbnail);
+def addItemMenu(label, thumbnail, url, isPlayable = 'false', isFolder = False):
+    __handle__ = int(sys.argv[1])
+    li = xbmcgui.ListItem(label, None);
     li.setProperty("IsPlayable", isPlayable);
 
-    xbmcplugin.addDirectoryItems(__handle__, li, len(li));
+    xbmcplugin.addDirectoryItem(__handle__, listitem=li, url=url, isFolder=isFolder);
