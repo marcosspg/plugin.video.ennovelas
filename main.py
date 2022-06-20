@@ -1,42 +1,33 @@
+import os
 import xbmcaddon
 import sys
-from urllib.parse import parse_qsl
+from urllib.parse import urlparse, parse_qs
 import xbmcgui
 import xbmcplugin
-import requests
+import actions
 import tools
 import logger 
-from bs4 import BeautifulSoup, ResultSet
 
-
-__addon__ = xbmcaddon.Addon();
-__addonname__ = __addon__.getAddonInfo("name");
-
-line1 = "jolalaaaaa";
-
-
-#Muestra una ventana de dialogo para confirmar
-#xbmcgui.Dialog().ok(__addonname__, line1);
-
-# Get the plugin url in plugin:// notation.
 __url__ = sys.argv[0]
-# Get the plugin handle as an integer number.
 __handle__ = int(sys.argv[1])
 
+args = parse_qs(sys.argv[2][1:]);
 
+action = args.get('action', None);
 
-urlNovelasActuales = "https://www.ennovelas.com/novelas";
+if action != None:
+    action = action[0];
 
-
-
-
-def getNovelas():
-    with requests.Session() as s:
-        response = s.get(urlNovelasActuales);
-        for novela in BeautifulSoup(response.content).find_all("div",attrs={"class":"video-post clearfix"}):
-            titulo = novela.find("a").find("p").text;
-            url = str(novela.find("a")["href"]);
-            portada = str(novela.find("a").find("div", attrs={"class":"thumb"})["style"]).replace(")", "").replace("background-image:url(","");
-            tools.addItemMenu(titulo, portada, url);
-getNovelas();
+#Acciones    
+if action == None:
+    tools.addItemMenu("Buscar", os.path.join(tools.get_runtime_path(),"resources","buttons","search.png"), tools.build_url({"action":"buscar"}), isFolder=True);
+    tools.addItemMenu("Lista de novelas", os.path.join(tools.get_runtime_path(),"resources","buttons","list.png"), tools.build_url({"action":"listaNovelas"}),isFolder=True);
+elif action == "listaNovelas":
+    actions.getNovelas();
+elif action == "verNovela":
+    url = args.get('url', None)[0];
+    actions.getCapitulos(url);
+elif action == "verCapitulo":
+    url = args.get('url', None)[0];
+    actions.verCapitulo(url);
 xbmcplugin.endOfDirectory(__handle__)

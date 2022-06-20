@@ -2,4 +2,4 @@ import xbmc
 
 
 def debug(mensaje):
-    xbmc.log("ENNOVELAS ADDON: "+mensaje);
+    xbmc.log("ENNOVELAS ADDON: "+str(mensaje), xbmc.LOGERROR);

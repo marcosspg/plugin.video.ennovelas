@@ -1,15 +1,21 @@
+import re
+
+from bs4 import BeautifulSoup
 import requests
-from bs4 import ResultSet, BeautifulSoup
-urlNovelasActuales = "https://www.ennovelas.com/novelas";
+
+text = """
+var holaplayer;
+window.hola_player({ player: '#hola',
+    				share: false,
+    				poster: 'https://13-ukr-sv.ennovelas.com/i/01/00000/021bgiebgjkp_xt.jpg',
+    				sources: [{src: "https://13-ukr-sv.ennovelas.com/wloopagyopz54amjhxtyi44bp5fewduxbec3xstvq2tfcvt44ce42zwtcsma/v.mp4", type: "video/mp4", res: 720, label: "720"}],
+					preload: 'auto',
+					controls_watermark: { image: 'https://www.ennovelas.com/LOGOO.png', tooltip: 'Ennovelas.com - Entretenimiento en tus manos', url: 'https://www.ennovelas.com' },thumbnails:{ vtt:'https://www.ennovelas.com/dl?op=get_slides&length=2661.16&url=https://13-ukr-sv.ennovelas.com/i/01/00000/021bgiebgjkp0000.jpg' },
+					videojs_options: { 
 
 
 
-def getNovelas():
-    with requests.Session() as s:
-        response = s.get(urlNovelasActuales);
-        for novela in BeautifulSoup(response.content).find_all("div",attrs={"class":"video-post clearfix"}):
-            titulo = novela.find("a").find("p").text;
-            url = novela.find("a")["href"];
-            portada = str(novela.find("a").find("div", attrs={"class":"thumb"})["style"]).replace(")", "").replace("background-image:url(","");
-            tools.addItemMenu(url, portada);
-getNovelas();
+"""
+
+
+print(re.findall("sources: \[{src: \".*v.mp4", text)[0].replace("sources: [{src: \"", ""));
