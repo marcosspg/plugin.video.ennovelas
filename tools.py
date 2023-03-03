@@ -1,3 +1,4 @@
+import os
 import sys
 from urllib.parse import urlencode
 
@@ -79,3 +80,18 @@ def play_video(label, path):
     play_item = xbmcgui.ListItem(path=path, label=label)
     # Pass the item to the Kodi player.
     xbmcplugin.setResolvedUrl(__handle__, True, listitem=play_item)
+
+
+def marcarVisto(url):
+    with open(os.path.join(get_runtime_path(), "resources", "capitulosvistos.txt"), "a", encoding="utf-8") as vistosFile:
+        vistosFile.write(url+"\n");
+        vistosFile.close();
+
+def getCapitulosVistos():
+    vistos = [];
+    with open(os.path.join(get_runtime_path(), "resources", "capitulosvistos.txt"), encoding="utf-8") as vistosFile:
+        
+        for capitulo in vistosFile.readlines():
+            vistos.append(capitulo.replace("\n", ""));
+        vistosFile.close();
+    return vistos

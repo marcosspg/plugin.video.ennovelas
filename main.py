@@ -21,13 +21,19 @@ if action != None:
 #Acciones    
 if action == None:
     tools.addItemMenu("Buscar", os.path.join(tools.get_runtime_path(),"resources","buttons","search.png"), tools.build_url({"action":"buscar"}), isFolder=True);
-    tools.addItemMenu("Lista de novelas", os.path.join(tools.get_runtime_path(),"resources","buttons","list.png"), tools.build_url({"action":"listaNovelas"}),isFolder=True);
+    tools.addItemMenu("Lista de novelas", os.path.join(tools.get_runtime_path(),"resources","buttons","list.png"), tools.build_url({"action":"listaNovelas", "pagina":"1"}),isFolder=True);
 elif action == "listaNovelas":
-    actions.getNovelas();
+    try:
+        pagina = args.get('pagina', None)[0];
+    except:
+        pagina = 1;
+    actions.getNovelas(pagina);
 elif action == "verNovela":
     url = args.get('url', None)[0];
     actions.getCapitulos(url);
 elif action == "verCapitulo":
     url = args.get('url', None)[0];
     actions.verCapitulo(url);
+elif action=="buscar":
+    actions.buscar();
 xbmcplugin.endOfDirectory(__handle__)
